@@ -53,6 +53,7 @@ ggplot(all_results) +
   ylab("Number of positive tests in previous 14 days") +
   ggtitle("The number of infectous people by UTLA") +
   scale_x_date(date_breaks = "2 weeks", date_labels = "%b %d") +
+  labs(caption = "Source: http://coronavirus.data.gov.uk") +
   ggsave("plot 1.png", height = 12, width = 24, units = "cm")
 
 population <- cases %>%
@@ -74,4 +75,5 @@ ggplot(population_adjusted_results) +
   ylab("Number of positive tests in previous 14 days per 100k") +
   ggtitle("The number of infectous people per 100k by UTLA") +
   scale_x_date(date_breaks = "2 weeks", date_labels = "%b %d") +
+  labs(caption = "Source: http://coronavirus.data.gov.uk") +
   ggsave("plot 2.png", height = 12, width = 24, units = "cm")
