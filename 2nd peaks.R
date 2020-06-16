@@ -12,13 +12,14 @@ cases <- read_csv(paste0("https://coronavirus.data.gov.uk/downloads/csv/",
 
 ltlas <- cases %>%
   filter(`Area type` == "Lower tier local authority") %>%
-  distinct(`Area name`, `Area code`)
+  distinct(`Area name`, `Area code`) %>%
+  mutate(type = "Lower tier local authority")
 
-get_local_cases <- function(area_name, ltla) {
+get_local_cases <- function(area_name, ltla, type) {
   print(paste("Processing", ltla))
   local_cases <- cases %>%
     filter(`Area code` == ltla,
-           `Area type` == "Lower tier local authority")
+           `Area type` == type)
   
   all_dates <- data.frame(
     date = seq.Date(from = min(local_cases$`Specimen date`),
@@ -85,8 +86,39 @@ g <- ggplot(results_for_2nd_peaks) +
                 colour = area_name)) +
   xlab("Date") +
   ylab("Number of positive tests in previous 14 days") +
-  ggtitle("The number of infectous people by UTLA") +
+  ggtitle("The number of infectious people by UTLA") +
   scale_x_date(date_breaks = "2 weeks", date_labels = "%b %d") +
   labs(caption = "Source: http://coronavirus.data.gov.uk")
+
+ggplotly()
+
+england_cases <- get_local_cases("England", "E92000001", "Nation")
+
+england_and_brighton <- england_cases %>%
+  bind_rows(results_for_2nd_peaks %>%
+              filter(area_name == "Brighton and Hove"))
+
+population <- cases %>%
+  inner_join(england_and_brighton, by = c("Area name" = "area_name")) %>%
+  filter(`Area type` %in% c("Nation", "Upper tier local authority")) %>%
+  mutate(population = `Cumulative lab-confirmed cases` /
+           `Cumulative lab-confirmed cases rate` * 1e5) %>%
+  filter(date == max(cases$`Specimen date`),
+         date == `Specimen date`) %>%
+  select(`Area name`, population)
+
+england_and_brighton <- england_and_brighton %>%
+  inner_join(population, by = c("area_name" = "Area name")) %>%
+  mutate(rolling_14_days_rate = rolling_14_days / population * 1e5)
+
+ggplot(england_and_brighton) +
+  geom_line(aes(x = date, y = rolling_14_days_rate, group = area_name,
+                colour = area_name)) +
+  xlab("Date") +
+  ylab("Number of positive tests in previous 14 days per 100k") +
+  ggtitle("The number of infectous people per 100k by UTLA") +
+  scale_x_date(date_breaks = "2 weeks", date_labels = "%b %d") +
+  labs(caption = "Source: http://coronavirus.data.gov.uk") +
+  ggsave("plot 2.png", height = 12, width = 24, units = "cm")
 
 ggplotly()
