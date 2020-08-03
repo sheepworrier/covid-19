@@ -78,4 +78,6 @@ ggplot(population_adjusted_results) +
   labs(caption = "Source: http://coronavirus.data.gov.uk") +
   ggsave("plot 2.png", height = 12, width = 24, units = "cm")
 
-ggplotly()
+p <- ggplotly()
+
+htmlwidgets::saveWidget(p, "uk_comparison.html")
