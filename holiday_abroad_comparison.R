@@ -17,13 +17,15 @@ cases <-
            "time_series_covid19_confirmed_global.csv"))
 
 filter_in <- data.frame(`Country/Region` = c("United Kingdom", "Spain",
-                                             "Portugal", "France"),
-                        country = c("GBR", "ESP", "PRT", "FRA"),
+                                             "Portugal", "France", "Italy",
+                                             "Cyprus", "Malta", "Poland"),
+                        country = c("GBR", "ESP", "PRT", "FRA", "ITA", "CYP",
+                                    "MLT", "POL"),
                         stringsAsFactors = FALSE)
 
-population <- wb(country = filter_in$country, indicator = c("SP.POP.TOTL"),
-                 mrv = 1) %>%
-  select(iso3c, population = value)
+population <- wb_data(country = filter_in$country, indicator = c("SP.POP.TOTL"),
+                      mrv = 1) %>%
+  select(iso3c, population = SP.POP.TOTL)
 
 get_area_cases <- function(area_name, area_code) {
   print(paste("Processing", area_name))
