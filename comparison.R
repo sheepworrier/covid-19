@@ -77,3 +77,5 @@ ggplot(population_adjusted_results) +
   scale_x_date(date_breaks = "2 weeks", date_labels = "%b %d") +
   labs(caption = "Source: http://coronavirus.data.gov.uk") +
   ggsave("plot 2.png", height = 12, width = 24, units = "cm")
+
+ggplotly()
