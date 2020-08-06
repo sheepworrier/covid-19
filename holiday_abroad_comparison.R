@@ -18,9 +18,10 @@ cases <-
 
 filter_in <- data.frame(`Country/Region` = c("United Kingdom", "Spain",
                                              "Portugal", "France", "Italy",
-                                             "Cyprus", "Malta", "Poland"),
+                                             "Cyprus", "Malta", "Poland",
+                                             "Denmark"),
                         country = c("GBR", "ESP", "PRT", "FRA", "ITA", "CYP",
-                                    "MLT", "POL"),
+                                    "MLT", "POL", "DNK"),
                         stringsAsFactors = FALSE)
 
 population <- wb_data(country = filter_in$country, indicator = c("SP.POP.TOTL"),
