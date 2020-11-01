@@ -24,3 +24,5 @@ p <- ggplot(filtered_data) +
   labs(caption = "Source: http://coronavirus.data.gov.uk")
 
 ggplotly(p)
+
+p + ggsave("UK LTLAs.png", height = 12, width = 24, units = "cm")
