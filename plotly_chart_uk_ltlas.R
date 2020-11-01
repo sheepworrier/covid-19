@@ -19,7 +19,8 @@ p <- ggplot(filtered_data) +
                 colour = areaName)) +
   xlab("Date") +
   ylab("Number of positive tests in previous 7 days per 100k") +
-  ggtitle("The number of infectous people per 100k by LTLA") +
+  ggtitle(paste0("The number of cases in last 7 days per 100k by LTLA.  ",
+                 "Last updated: ", max(filtered_data$date))) +
   scale_x_date(date_breaks = "2 weeks", date_labels = "%b %d") +
   labs(caption = "Source: http://coronavirus.data.gov.uk")
 

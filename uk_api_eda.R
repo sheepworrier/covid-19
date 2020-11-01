@@ -2,10 +2,11 @@ library(ukcovid19)
 library(readr)
 library(dplyr)
 library(zoo)
+library(purrr)
 
-all_ltlas = c(
-  "areaType=ltla"
-)
+ltlas_of_interest <- c("Brighton and Hove", "United Kingdom",
+                       "Wolverhampton", "Enfield", "Mid Sussex",
+                       "Bournemouth, Christchurch and Poole")
 
 all_uk = c(
   "areaType=overview"
@@ -20,10 +21,18 @@ cases_and_rates = list(
   cumCasesBySpecimenDateRate = "cumCasesBySpecimenDateRate"
 )
 
-ltla_data <- get_data(
-  filters = all_ltlas, 
-  structure = cases_and_rates
-) %>%
+get_ltla_data <- function(ltla_name) {
+  ltla_filter <- c(
+    "areaType=ltla",
+    paste0("areaName=", ltla_name)
+  )
+  get_data(
+    filters = ltla_filter, 
+    structure = cases_and_rates
+  )
+}
+
+ltla_data <- map_dfr(ltlas_of_interest, get_ltla_data) %>%
   arrange(areaName, date)
 
 uk_data <- get_data(
