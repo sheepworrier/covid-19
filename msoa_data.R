@@ -40,4 +40,5 @@ p <- ggplot(filtered_data) +
   labs(caption = "Source: http://coronavirus.data.gov.uk") +
   theme(legend.position = "none")
 
-p + ggsave("UK MSOAs.png", height = 12, width = 24, units = "cm")
+p + ggsave("~/Dropbox/Public/COVID-19/UK MSOAs.png",
+           height = 12, width = 24, units = "cm")

@@ -18,7 +18,9 @@ cases_and_rates = list(
   areaCode = "areaCode",
   newCasesBySpecimenDate = "newCasesBySpecimenDate",
   cumCasesBySpecimenDate = "cumCasesBySpecimenDate",
-  cumCasesBySpecimenDateRate = "cumCasesBySpecimenDateRate"
+  cumCasesBySpecimenDateRate = "cumCasesBySpecimenDateRate",
+  newCasesByPublishDate = "newCasesByPublishDate",
+  cumCasesByPublishDate = "cumCasesByPublishDate"
 )
 
 get_ltla_data <- function(ltla_name) {
@@ -50,6 +52,11 @@ all_data <- ltla_data %>%
            rollapplyr(newCasesBySpecimenDate, 7, sum, partial = TRUE,
                       align = "right"),
          specimen_7_day_rate = rolling_7_days_by_specimen /
+           population * 1e5,
+         rolling_7_days_by_publish =
+           rollapplyr(newCasesByPublishDate, 7, sum, partial = TRUE,
+                      align = "right"),
+         publish_7_day_rate = rolling_7_days_by_publish /
            population * 1e5) %>%
   ungroup() %>%
   arrange(areaName, date)
