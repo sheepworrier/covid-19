@@ -2,8 +2,8 @@ library(readr)
 library(ggplot2)
 library(ggrepel)
 
-msoa_data <- read_csv(paste0("https://coronavirus-staging.data.gov.uk/",
-                             "downloads/msoa_data/MSOAs_latest.csv"))
+msoa_data <- read_csv(paste0("https://api.coronavirus.data.gov.uk/v2/data?",
+                             "areaType=msoa&metric=newCasesBySpecimenDateRollingRate&format=csv"))
 
 msoas_of_interest <-
   data.frame(areaName = c("North Laine & the Lanes", "Aldrington South",
