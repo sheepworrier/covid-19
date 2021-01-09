@@ -57,8 +57,10 @@ all_data <- ltla_data %>%
            rollapplyr(newCasesByPublishDate, 7, sum, partial = TRUE,
                       align = "right"),
          publish_7_day_rate = rolling_7_days_by_publish /
-           population * 1e5) %>%
+           population * 1e5,
+         snapshot_date = max(ltla_data$date)) %>%
   ungroup() %>%
   arrange(areaName, date)
 
-write_csv(all_data, "~/Dropbox/Public/COVID-19/uk_rate_data.csv")
+write_csv(all_data, "~/Dropbox/Public/COVID-19/uk_rate_data.csv",
+          append = TRUE)

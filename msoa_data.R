@@ -1,6 +1,7 @@
 library(readr)
 library(ggplot2)
 library(ggrepel)
+library(dplyr)
 
 msoa_data <- read_csv(paste0("https://api.coronavirus.data.gov.uk/v2/data?",
                              "areaType=msoa&metric=newCasesBySpecimenDateRollingRate&format=csv"))
