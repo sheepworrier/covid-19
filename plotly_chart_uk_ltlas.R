@@ -10,7 +10,7 @@ latest_snapshot <- all_data %>%
   filter(snapshot_date == max(all_data$snapshot_date)) %>%
   select(-snapshot_date)
 
-latest_data <- max(all_data$date, na.rm = FALSE)
+latest_data <- max(latest_snapshot$date, na.rm = FALSE)
 
 ltlas_of_interest <-
   data.frame(areaName = c("Brighton and Hove", "United Kingdom",
@@ -22,7 +22,7 @@ ltlas_of_interest <-
 
 filtered_data <- latest_snapshot %>%
   inner_join(ltlas_of_interest) %>%
-  filter(date <= latest_data - 4,
+  filter(date <= latest_data - 5,
          date >= latest_data - 90) %>%
   mutate(label = if_else(who == "UK",
                          paste(who, round(specimen_7_day_rate, digits = 0),
@@ -35,7 +35,7 @@ p <- ggplot(filtered_data) +
   geom_line(aes(x = date, y = specimen_7_day_rate, group = areaName,
                 colour = areaName)) +
   geom_label_repel(data = filtered_data %>%
-                     filter(date == latest_data - 4),
+                     filter(date == latest_data - 5),
                    aes(label = label, x = date, y = specimen_7_day_rate)) +
   xlab("Date") +
   ylab("Number of positive tests in previous 7 days per 100k") +

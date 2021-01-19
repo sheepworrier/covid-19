@@ -8,10 +8,6 @@ ltlas_of_interest <- c("Brighton and Hove", "United Kingdom",
                        "Wolverhampton", "Enfield", "Mid Sussex",
                        "Bournemouth, Christchurch and Poole")
 
-all_uk = c(
-  "areaType=overview"
-)
-
 cases_and_rates = list(
   date = "date",
   areaName = "areaName",
@@ -21,6 +17,10 @@ cases_and_rates = list(
   cumCasesBySpecimenDateRate = "cumCasesBySpecimenDateRate",
   newCasesByPublishDate = "newCasesByPublishDate",
   cumCasesByPublishDate = "cumCasesByPublishDate"
+)
+
+all_uk = c(
+  "areaType=overview"
 )
 
 get_ltla_data <- function(ltla_name) {
@@ -61,6 +61,11 @@ all_data <- ltla_data %>%
          snapshot_date = max(ltla_data$date)) %>%
   ungroup() %>%
   arrange(areaName, date)
+
+all_data %>%
+  filter(date == max(date)) %>%
+  distinct(date) %>%
+  write_csv("~/Dropbox/Public/COVID-19/latest_data.csv")
 
 write_csv(all_data, "~/Dropbox/Public/COVID-19/uk_rate_data.csv",
           append = TRUE)
