@@ -70,10 +70,8 @@ plot_selected_area <- function(area_name) {
                        filter((date == latest_data - 5 &
                                  series == "specimen_7_day_rate") |
                                 (date == latest_data &
-                                   series == "publish_7_day_rate")),
-                     aes(label = label, x = date, y = rate)) +
-    geom_label_repel(data = area_data %>%
-                       filter(date == "2020-12-24"),
+                                   series == "publish_7_day_rate") |
+                                date == "2020-12-24"),
                      aes(label = label, x = date, y = rate)) +
     xlab("Date") +
     ylab("Number of positive tests in previous 7 days per 100k") +

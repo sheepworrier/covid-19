@@ -1,8 +1,6 @@
 library(ukcovid19)
 library(readr)
 library(dplyr)
-# library(zoo)
-# library(purrr)
 
 all_uk = c(
   "areaType=overview"
@@ -31,6 +29,7 @@ last_updated_local <-
 
 if (last_updated_remote > last_updated_local) {
   source("uk_api_eda.R")
+  Sys.sleep(10)
   source("plotly_chart_uk_ltlas.R")
   source("msoa_data.R")
 }
